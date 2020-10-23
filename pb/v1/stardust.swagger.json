@@ -1,0 +1,242 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "stardust.proto",
+        "version": "1"
+    },
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "consumes": [
+        "application/json",
+        "multipart/form-data"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/service.stardust.v1.StarDust/GetUniqueId": {
+            "get": {
+                "summary": "/service.stardust.v1.StarDust/GetUniqueId",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer"
+                                },
+                                "message": {
+                                    "type": "string"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/.service.stardust.v1.IdReply"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "biz_type",
+                        "description": "gte=0,lt=32",
+                        "in": "query",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "len",
+                        "description": "gte=0,lte=1000",
+                        "in": "query",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "tags": [
+                    "service.stardust.v1.StarDust"
+                ]
+            }
+        },
+        "/service.stardust.v1.StarDust/GetUniqueIds": {
+            "get": {
+                "summary": "/service.stardust.v1.StarDust/GetUniqueIds",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer"
+                                },
+                                "message": {
+                                    "type": "string"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/.service.stardust.v1.IdsReply"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "biz_type",
+                        "description": "gte=0,lt=32",
+                        "in": "query",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "len",
+                        "description": "gte=0,lte=1000",
+                        "in": "query",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "tags": [
+                    "service.stardust.v1.StarDust"
+                ]
+            }
+        },
+        "/service.stardust.v1.StarDust/ParseId": {
+            "get": {
+                "summary": "/service.stardust.v1.StarDust/ParseId",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer"
+                                },
+                                "message": {
+                                    "type": "string"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/.service.stardust.v1.ParseReply"
+                                }
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "tags": [
+                    "service.stardust.v1.StarDust"
+                ]
+            }
+        },
+        "/service.stardust.v1.StarDust/Ping": {
+            "get": {
+                "summary": "/service.stardust.v1.StarDust/Ping",
+                "responses": {
+                    "200": {
+                        "description": "A successful response.",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "type": "integer"
+                                },
+                                "message": {
+                                    "type": "string"
+                                },
+                                "data": {
+                                    "$ref": "#/definitions/.google.protobuf.Empty"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "service.stardust.v1.StarDust"
+                ]
+            }
+        }
+    },
+    "definitions": {
+        ".google.protobuf.Empty": {
+            "type": "object",
+            "properties": {},
+            "description": "A generic empty message that you can re-use to avoid defining duplicated\n empty messages in your APIs. A typical example is to use it as the request\n or the response type of an API method. For instance:\n\n     service Foo {\n       rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty);\n     }\n\n The JSON representation for `Empty` is empty JSON object `{}`."
+        },
+        ".service.stardust.v1.IdReply": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        ".service.stardust.v1.IdReq": {
+            "type": "object",
+            "properties": {
+                "biz_type": {
+                    "type": "integer",
+                    "description": "gte=0,lt=32"
+                },
+                "len": {
+                    "type": "integer",
+                    "description": "gte=0,lte=1000"
+                }
+            },
+            "required": [
+                "biz_type",
+                "len"
+            ]
+        },
+        ".service.stardust.v1.IdsReply": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        ".service.stardust.v1.ParseReply": {
+            "type": "object",
+            "properties": {
+                "time": {
+                    "type": "integer"
+                },
+                "idc": {
+                    "type": "integer"
+                },
+                "worker": {
+                    "type": "integer"
+                },
+                "biz_type": {
+                    "type": "integer"
+                },
+                "sequence": {
+                    "type": "integer"
+                }
+            }
+        },
+        ".service.stardust.v1.ParseReq": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        }
+    }
+}

@@ -1,0 +1,93 @@
+[server]
+    [server.rpc]
+        addr = "0.0.0.0:0"
+        timeout = "1s"
+        idleTimeout = "180s"
+        maxLifeTime = "2h"
+        forceCloseWait = "20s"
+        keepAliveInterval = "60s"
+        keepAliveTimeout = "20s"
+        slowRequestDuration = "500ms"
+        watchConfig = true
+        enableMetric = true
+[server.http]
+    addr = "0.0.0.0:20827"
+    timeout = "2s"
+    mode = "debug"
+    slowRequestDuration = "500ms"
+    watchConfig = true
+    enableMetric = true
+
+[client]
+    [client.rpc]
+        [client.rpc.stardust]
+            key = "xHf74ZfV43cAUsUl"
+            secret = "d0dbe915091d400bd8ee7f27f0791303"
+            dialTimeout = "10s"
+            block = true
+            balancer = "round_robin"
+            target = "etcd://default/service.user.v1"
+            timeout = "500ms"
+            keepAliveInterval = "60s"
+            keepAliveTimeout = "20s"
+            slowRequestDuration = "500ms"
+
+[redis]
+    dbName = "redis"
+    dbIndex = 0
+    addr = "127.0.0.1:6379"
+    password = ""
+    maxIdle = 5
+    maxActive = 10
+    dialTimeout = "1s"
+    readTimeout = "1s"
+    writeTimeout = "1s"
+    idleTimeout = "10s"
+    slowOpTimeout = "100ms"
+
+[registry]
+    type = "etcd"
+    endpoints = "127.0.0.1:2379"
+    dialTimeout = "1s"
+
+# unique id pool
+[uniqueid]
+    len = 500 #max size
+    bizType = 1 #business type
+
+[log]
+    addCaller = true
+    callerSkip = 1
+    level = "debug"
+    #outputPath = ["stdout","./logs/run.log"]
+    outputPath = ["stdout"]
+    errorOutputPath = ["stderr"]
+    watchConfig = true
+
+[trace]
+    [trace.jaeger]
+        serviceName = "waterdrop"
+        enableRPCMetrics = true
+        #sampler config
+        samplerType = "const"
+        samplerParam = 1
+        #report config
+        agentAddr = "127.0.0.1:6831"
+        reporterLogSpans = false
+        reporterBufferFlushInterval = "2s"
+        #option config
+        maxTagValueLength = 5120
+
+[etcd]
+    prefix = "stardust"
+    endpoints = ["127.0.0.1:2379"]
+    dialTimeout = "1s"
+    registerTTL = "90s"
+    username = ""
+    password = ""
+
+[stats]
+    addr = "0.0.0.0:20828"
+    mode = "debug"
+    enableMetric = true
+    enableProfile = true
