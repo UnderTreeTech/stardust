@@ -16,10 +16,18 @@
  *
  */
 
-package main
+package http
 
-import "fmt"
+import "github.com/gin-gonic/gin"
 
-func main() {
-	fmt.Println("I'm stardust")
+func getId(c *gin.Context) {
+
+}
+
+func getIds(c *gin.Context) {
+
+}
+
+func parseId(c *gin.Context) {
+
 }
