@@ -16,55 +16,47 @@
  *
  */
 
-package http
+package grpc
 
 import (
 	"apps/stardust/internal/service"
+	"apps/stardust/pb/v1/stardust"
 	"fmt"
 	"net"
 
 	"github.com/UnderTreeTech/waterdrop/pkg/conf"
-
-	"github.com/UnderTreeTech/waterdrop/pkg/utils/xnet"
-
 	"github.com/UnderTreeTech/waterdrop/pkg/registry"
-
-	"github.com/UnderTreeTech/waterdrop/pkg/server/http"
+	"github.com/UnderTreeTech/waterdrop/pkg/server/rpc"
+	"github.com/UnderTreeTech/waterdrop/pkg/utils/xnet"
+	"google.golang.org/grpc"
 )
 
-var svc *service.Service
-
 type ServerInfo struct {
-	Server      *http.Server
+	Server      *rpc.Server
 	ServiceInfo *registry.ServiceInfo
 }
 
 func New(s *service.Service) *ServerInfo {
-	srvConfig := &http.ServerConfig{}
-	if err := conf.Unmarshal("server.http", srvConfig); err != nil {
-		panic(fmt.Sprintf("unmarshal http server config fail, err msg %s", err.Error()))
+	srvConfig := &rpc.ServerConfig{}
+	if err := conf.Unmarshal("server.rpc", srvConfig); err != nil {
+		panic(fmt.Sprintf("unmarshal grpc server config fail, err msg %s", err.Error()))
 	}
-	server := http.NewServer(srvConfig)
-	router(server)
+
+	server := rpc.NewServer(srvConfig)
+	registerServers(server.Server(), s)
 
 	addr := server.Start()
 	_, port, _ := net.SplitHostPort(addr.String())
 	serviceInfo := &registry.ServiceInfo{
-		Name:    "server.http.stardust",
-		Scheme:  "http",
-		Addr:    fmt.Sprintf("%s://%s:%s", "http", xnet.InternalIP(), port),
+		Name:    "service.stardust.v1",
+		Scheme:  "grpc",
+		Addr:    fmt.Sprintf("%s://%s:%s", "grpc", xnet.InternalIP(), port),
 		Version: "1.0.0",
 	}
 
-	svc = s
 	return &ServerInfo{Server: server, ServiceInfo: serviceInfo}
 }
 
-func router(s *http.Server) {
-	g := s.Group("/api")
-	{
-		g.GET("/stardust/id", getId)
-		g.GET("/stardust/ids", getIds)
-		g.GET("/stardust/parse", parseId)
-	}
+func registerServers(g *grpc.Server, s *service.Service) {
+	stardust.RegisterStarDustServer(g, s)
 }

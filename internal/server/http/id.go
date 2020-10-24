@@ -18,16 +18,43 @@
 
 package http
 
-import "github.com/gin-gonic/gin"
+import (
+	"apps/stardust/pb/v1/stardust"
+	"fmt"
+	"net/http"
+
+	"github.com/UnderTreeTech/waterdrop/pkg/utils/xreply"
+
+	"github.com/gin-gonic/gin"
+)
 
 func getId(c *gin.Context) {
+	req := &stardust.IdReq{}
+	if err := c.BindQuery(req); err != nil {
+		return
+	}
+	fmt.Println(c.Request.URL.Query())
 
+	reply, err := svc.GetUniqueId(c.Request.Context(), req)
+	c.JSON(http.StatusOK, xreply.Reply(c.Request.Context(), reply, err))
 }
 
 func getIds(c *gin.Context) {
+	req := &stardust.IdReq{}
+	if err := c.BindQuery(req); err != nil {
+		return
+	}
 
+	reply, err := svc.GetUniqueIds(c.Request.Context(), req)
+	c.JSON(http.StatusOK, xreply.Reply(c.Request.Context(), reply, err))
 }
 
 func parseId(c *gin.Context) {
+	req := &stardust.ParseReq{}
+	if err := c.BindQuery(req); err != nil {
+		return
+	}
 
+	reply, err := svc.ParseId(c.Request.Context(), req)
+	c.JSON(http.StatusOK, xreply.Reply(c.Request.Context(), reply, err))
 }

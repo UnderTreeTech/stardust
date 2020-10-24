@@ -22,7 +22,6 @@
 syntax = "proto3";
 
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
-import "google/protobuf/empty.proto";
 
 package service.stardust.v1;
 
@@ -30,15 +29,14 @@ option go_package = "stardust";
 option (gogoproto.goproto_getters_all) = false;
 
 service StarDust {
-  rpc Ping(.google.protobuf.Empty) returns (.google.protobuf.Empty);
   rpc GetUniqueIds(IdReq) returns (IdsReply);
   rpc GetUniqueId(IdReq) returns (IdReply);
   rpc ParseId(ParseReq) returns (ParseReply);
 }
 
 message IdReq {
-  int64 biz_type = 1 [(gogoproto.jsontag) = 'biz_type',(gogoproto.moretags) = 'validate:"required,gte=0,lt=32"'];
-  int64 len = 2 [(gogoproto.jsontag) = 'len',(gogoproto.moretags) = 'validate:"required,gte=0,lte=1000"'];
+  int64 biz_type = 1 [(gogoproto.jsontag) = 'biz_type',(gogoproto.moretags) = 'form:"biz_type" validate:"required,gte=0,lt=32"'];
+  int64 len = 2 [(gogoproto.jsontag) = 'len',(gogoproto.moretags) = 'form:"len" validate:"required,gte=0,lte=1000"'];
 }
 
 message IdsReply {
@@ -50,7 +48,7 @@ message IdReply {
 }
 
 message ParseReq {
-  int64 id = 1 [(gogoproto.jsontag) = 'id',(gogoproto.moretags) = 'validate:"required"'];
+  int64 id = 1 [(gogoproto.jsontag) = 'id',(gogoproto.moretags) = 'form:"id" validate:"required"'];
 }
 
 message ParseReply {

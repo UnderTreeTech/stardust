@@ -26,7 +26,7 @@
             dialTimeout = "10s"
             block = true
             balancer = "round_robin"
-            target = "etcd://default/service.user.v1"
+            target = "etcd://default/service.stardust.v1"
             timeout = "500ms"
             keepAliveInterval = "60s"
             keepAliveTimeout = "20s"
@@ -51,9 +51,10 @@
     dialTimeout = "1s"
 
 # unique id pool
-[uniqueid]
-    len = 500 #max size
-    bizType = 1 #business type
+[Snowflake]
+    dataCenterId = 0
+    workerId = 0
+    maxIdNum = 100 #default max_num 1000, this config should lte default max_num
 
 [log]
     addCaller = true
@@ -66,7 +67,7 @@
 
 [trace]
     [trace.jaeger]
-        serviceName = "waterdrop"
+        serviceName = "stardust"
         enableRPCMetrics = true
         #sampler config
         samplerType = "const"
