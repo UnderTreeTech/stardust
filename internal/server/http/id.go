@@ -20,7 +20,6 @@ package http
 
 import (
 	"apps/stardust/pb/v1/stardust"
-	"fmt"
 	"net/http"
 
 	"github.com/UnderTreeTech/waterdrop/pkg/utils/xreply"
@@ -33,7 +32,6 @@ func getId(c *gin.Context) {
 	if err := c.BindQuery(req); err != nil {
 		return
 	}
-	fmt.Println(c.Request.URL.Query())
 
 	reply, err := svc.GetUniqueId(c.Request.Context(), req)
 	c.JSON(http.StatusOK, xreply.Reply(c.Request.Context(), reply, err))

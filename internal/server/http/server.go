@@ -23,6 +23,9 @@ import (
 	"fmt"
 	"net"
 
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
+
 	"github.com/UnderTreeTech/waterdrop/pkg/conf"
 
 	"github.com/UnderTreeTech/waterdrop/pkg/utils/xnet"
@@ -55,8 +58,8 @@ func New(s *service.Service) *ServerInfo {
 		Addr:    fmt.Sprintf("%s://%s:%s", "http", xnet.InternalIP(), port),
 		Version: "1.0.0",
 	}
-
 	svc = s
+	binding.Validator.Engine().(*validator.Validate).SetTagName("validate")
 	return &ServerInfo{Server: server, ServiceInfo: serviceInfo}
 }
 
